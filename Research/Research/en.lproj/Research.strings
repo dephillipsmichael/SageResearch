@@ -106,7 +106,7 @@
 "MEDICATION_DOSAGE_PLACEHOLDER" = "e.g. 10/100 mg";    // Placeholder text for medication dosage.
 "MEDICATION_DAYS_OF_WEEK_TITLE_%1$@_at_%2$@" = "Which days do you take %1$@ at %2$@?"; // ex. "Advil at 7:00 AM"
 "MEDICATION_REVIEW_TITLE" = "Review medications";
-"MEDICATION_REMOVE_TITLE_%@" = "Are you sure you want to remove %@ from your current medication list?";
+"MEDICATION_REMOVE_TITLE_%@" = "Are you sure you want to remove %@ from your current medication list?";
 "MEDICATION_REMOVE_TEXT" = "Removing this medication will remove it from your Medications list. If you wish to re-add it, it will not be saved.";
 "MEDICATION_REMOVE_BUTTON_TEXT" = "Yes, remove medication";
 
