@@ -61,6 +61,22 @@ public enum RSDWeekday : Int, Codable, RSDIntEnumSet {
         let formatter = DateFormatter()
         return formatter.shortWeekdaySymbols[self.rawValue - 1]
     }
+    
+    public init?(result: RSDResult) {
+        guard let answerResult = result as? RSDAnswerResult else { return nil }
+        if let value = answerResult.value as? RSDWeekday {
+            self = value
+        }
+        else if let number = answerResult.value as? NSNumber {
+            self.init(rawValue: number.intValue)
+        }
+        else if let rawValue = answerResult.value as? Int {
+            self.init(rawValue: rawValue)
+        }
+        else {
+            return nil
+        }
+    }
 }
 
 extension RSDWeekday {

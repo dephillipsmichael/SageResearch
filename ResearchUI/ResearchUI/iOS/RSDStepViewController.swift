@@ -392,7 +392,6 @@ open class RSDStepViewController : UIViewController, RSDStepViewControllerProtoc
         setupButton(navigationView.backButton, for: .navigation(.goBackward), isFooter: isFooter)
         setupButton(navigationView.skipButton, for: .navigation(.skip), isFooter: isFooter)
         
-        
         if let imageTheme = self.themedStep?.imageTheme, let imageView = navigationView.imageView {
             let imagePlacement = imageTheme.placementType ?? .iconBefore
             let shouldSetImage = shouldSetNavigationImage(for: placement, with: imagePlacement)
@@ -412,6 +411,8 @@ open class RSDStepViewController : UIViewController, RSDStepViewControllerProtoc
                     fetchLoader.fetchImage(for: imageView.bounds.size, callback: { [weak navigationView] (_, img) in
                         navigationView?.image = img
                     })
+                } else {
+                    navigationView.imageView?.image = UIImage(named: imageTheme.imageIdentifier)
                 }
             }
         }
