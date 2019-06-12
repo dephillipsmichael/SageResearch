@@ -254,4 +254,20 @@ open class RSDActiveStepViewController: RSDFullscreenImageStepViewController {
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
+    
+    /// Set the color style for the given placement elements. This allows overriding by subclasses to
+    /// customize the view style.
+    override open func setColorStyle(for placement: RSDColorPlacement,
+                                        background: RSDColorTile) {
+        
+        super.setColorStyle(for: placement, background: background)
+        
+        if (placement == .body) {
+            self.countdownLabel?.font = self.designSystem.fontRules.font(for: .counter)
+            self.countdownLabel?.textColor = self.designSystem.colorRules.textColor(on: background, for: .counter)
+            
+            self.unitLabel?.font = self.designSystem.fontRules.font(for: .body)
+            self.unitLabel?.textColor = self.designSystem.colorRules.textColor(on: background, for: .body)
+        }
+    }
 }
