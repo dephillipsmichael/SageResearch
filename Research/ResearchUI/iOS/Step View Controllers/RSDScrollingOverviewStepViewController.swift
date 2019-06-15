@@ -66,6 +66,14 @@ open class RSDScrollingOverviewStepViewController: RSDOverviewStepViewController
     @IBOutlet
     open var scrollView: UIScrollView!
     
+    /// The button that displays the more info .
+    @IBOutlet
+    open var moreInformationButton: RSDUnderlinedButton!
+    
+    /// The constraint that sets the height of the more information button.
+    @IBOutlet
+    var moreInformationButtonHeight: NSLayoutConstraint!
+    
     /// Overrides viewWillAppear to add an info button, display the icons, to save
     /// the current Date to UserDefaults, and to use the saved date to decide whether
     /// or not to show the full task info or an abbreviated screen.
@@ -83,10 +91,22 @@ open class RSDScrollingOverviewStepViewController: RSDOverviewStepViewController
             icon.image = nil
         }
         
-        if let icons = (self.step as? RSDOverviewStep)?.icons {
-            for (idx, iconInfo) in icons.enumerated() {
-                iconImages[idx].image = iconInfo.icon?.embeddedImage()
-                iconTitles[idx].text = iconInfo.title
+        if let overviewStep = self.step as? RSDOverviewStep {
+            
+            if let icons = overviewStep.icons {
+                for (idx, iconInfo) in icons.enumerated() {
+                    iconImages[idx].image = iconInfo.icon?.embeddedImage()
+                    iconTitles[idx].text = iconInfo.title
+                }
+            }
+            
+            if let moreInformationAction = overviewStep.action(for: .custom("moreInformation"), on: overviewStep) {
+                moreInformationButton.setTitle(moreInformationAction.buttonTitle, for: .normal)
+                moreInformationButton.setImage(moreInformationAction.buttonIcon, for: .normal)
+                moreInformationButton.addTarget(self, action: #selector(self.showMoreInformation), for: .touchUpInside)
+            } else {
+                moreInformationButton.setTitle(nil, for: .normal)
+                moreInformationButtonHeight.constant = 0
             }
         }
         
@@ -163,6 +183,10 @@ open class RSDScrollingOverviewStepViewController: RSDOverviewStepViewController
         self.scrollView?.isScrollEnabled = shouldShowInfo
         self.infoButton?.isHidden = shouldShowInfo
         self.navigationFooter?.shouldShowShadow = shouldShowInfo
+    }
+    
+    @objc open func showMoreInformation() {
+        super.actionTapped(with: .custom("moreInformation"))
     }
     
     /// The function that is called when the info button is tapped.
