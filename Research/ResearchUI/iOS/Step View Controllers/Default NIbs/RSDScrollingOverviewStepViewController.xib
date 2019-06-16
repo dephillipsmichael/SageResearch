@@ -12,6 +12,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RSDScrollingOverviewStepViewController" customModule="ResearchUI" customModuleProvider="target">
             <connections>
+                <outlet property="iconImagesLeadingConstraint" destination="q6T-i2-fLB" id="tWB-Dh-tQy"/>
+                <outlet property="iconImagesTrailingConstraint" destination="Fmm-Jn-GX1" id="adp-KL-d0p"/>
                 <outlet property="iconViewLabel" destination="nSM-Mv-mDS" id="EtW-Ta-XWR"/>
                 <outlet property="infoButton" destination="F9g-BT-NE0" id="vtv-2e-e5z"/>
                 <outlet property="moreInformationButton" destination="0hp-ki-ShH" id="Lnf-mT-j1T"/>
