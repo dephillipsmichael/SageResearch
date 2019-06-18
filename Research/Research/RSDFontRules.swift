@@ -102,6 +102,19 @@ open class RSDFontRules  {
             return RSDFont.systemFont(ofSize: 80, weight: .light)
         }
     }
+    
+    /// Returns the font to use for a given button type.
+    ///
+    /// - parameter buttonType: The button type for the font.
+    /// - returns: The font to use for this button text.
+    open func font(for buttonType: RSDDesignSystem.ButtonType) -> RSDFont {
+        switch buttonType {
+        case .primary:
+            return RSDFont.systemFont(ofSize: 20, weight: .bold)
+        case .secondary:
+            return RSDFont.systemFont(ofSize: 18, weight: .bold)
+        }
+    }
 }
 
 #if os(macOS)
