@@ -34,7 +34,7 @@
 import Foundation
 import AudioToolbox
 import AVFoundation
-
+import AVKit
 
 /// `RSDStepViewController` is the default base class implementation for the steps presented using this
 /// UI architecture.
@@ -374,7 +374,7 @@ open class RSDStepViewController : UIViewController, RSDStepController, RSDCance
                 header.shouldShowProgress = true
                 header.progressView?.totalSteps = stepCount
                 header.progressView?.currentStep = stepIndex
-                header.stepCountLabel?.attributedText = header.progressView?.attributedStringForLabel()
+                header.stepCountLabel?.text = header.progressView?.stringForLabel()
                 header.isStepLabelHidden = isEstimated
             } else {
                 header.shouldShowProgress = false
@@ -741,8 +741,16 @@ open class RSDStepViewController : UIViewController, RSDStepController, RSDCance
         }
         else if let videoAction = action as? RSDVideoViewUIAction {
             // For a videoView action, present an AVPlayerViewController modally.
-            if let vc = RSDVideoViewController.instantiateController(action: videoAction) {
-                self.present(vc, animated: true, completion: nil)
+            do {                
+                let url = try videoAction.fullURL()
+                let vc = AVPlayerViewController()
+                vc.player = AVPlayer(url: url)
+                self.present(vc, animated: true) {
+                    vc.player?.play()
+                }
+            }
+            catch let err {
+                assertionFailure("Failed to get a url for this video. \(err)")
             }
             return true
         }
@@ -869,7 +877,7 @@ open class RSDStepViewController : UIViewController, RSDStepController, RSDCance
     public var clock: RSDClock?
     
     /// The clock uptime for when the step was finished.
-    private var completedUptime: TimeInterval?
+    public private(set) var completedUptime: TimeInterval?
     
     private var timer: Timer?
     private var lastInstruction: Int = -1
@@ -942,7 +950,12 @@ open class RSDStepViewController : UIViewController, RSDStepController, RSDCance
     /// Speak the instruction that is included at the given time marker (if any).
     open func speakInstruction(at duration: TimeInterval) {
         let nextInstruction = Int(duration)
-        if nextInstruction > lastInstruction {
+        if let stepDuration = self.activeStep?.duration,
+            duration >= stepDuration && stepDuration > 0 {
+            // For the last instruction, speak the end command.
+            speakEndCommand { }
+        }
+        else if nextInstruction > lastInstruction {
             for ii in (lastInstruction + 1)...nextInstruction {
                 let timeInterval = TimeInterval(ii)
                 if let instruction = self.spokenInstruction(at: timeInterval) {
@@ -976,6 +989,7 @@ open class RSDStepViewController : UIViewController, RSDStepController, RSDCance
     open func start() {
         _startTimer()
         _setupInterruptionObserver()
+        self.taskController?.startAsyncActionsIfNeeded()
     }
     
     private func _startTimer() {
@@ -1044,7 +1058,7 @@ open class RSDStepViewController : UIViewController, RSDStepController, RSDCance
             
             // Update the countdown
             if let stepDuration = self.activeStep?.duration {
-                countdown = Int(stepDuration - duration)
+                countdown = Int(ceil(stepDuration)) - Int(floor(duration))
             }
             
             // Otherwise, look for any spoken instructions since last fire

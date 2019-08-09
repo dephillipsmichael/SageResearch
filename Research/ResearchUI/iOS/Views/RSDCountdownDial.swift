@@ -180,11 +180,18 @@ public final class RSDCountdownDial: RSDProgressIndicator, RSDViewDesignable {
             ringLayer?.fillColor = innerColor.cgColor
         }
         
-        self.subviews.forEach {
-            if let label = $0 as? UILabel {
-                label.textColor = designSystem.colorRules.textColor(on: colorRules.inner, for: .counter)
+        func recursiveLabelUpdate(_ view: UIView) {
+            view.subviews.forEach {
+                if let label = $0 as? UILabel {
+                    // TODO: syoung 07/03/2019 Revisit setting the label color to match the font size.
+                    label.textColor = designSystem.colorRules.textColor(on: colorRules.inner, for: .largeNumber)
+                }
+                else if let stackView = $0 as? UIStackView {
+                    recursiveLabelUpdate(stackView)
+                }
             }
         }
+        recursiveLabelUpdate(self)
         
         self.recursiveSetDesignSystem(designSystem, with: colorRules.inner)
     }

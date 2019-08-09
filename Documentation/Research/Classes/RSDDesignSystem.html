@@ -77,6 +77,9 @@
                 <a href="../Classes/RSDColorRules/Style.html">– Style</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/RSDCountdownUIStepObject.html">RSDCountdownUIStepObject</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/RSDDataLogger.html">RSDDataLogger</a>
               </li>
               <li class="nav-group-task">
@@ -89,7 +92,7 @@
                 <a href="../Classes/RSDDesignSystem.html#/s:8Research15RSDDesignSystemC10ButtonTypeO">– ButtonType</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/RSDDesignSystem.html#/s:8Research15RSDDesignSystemC8TextTypeO">– TextType</a>
+                <a href="../Classes/RSDDesignSystem/TextType.html">– TextType</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/RSDFactory.html">RSDFactory</a>
@@ -903,6 +906,9 @@
                 <a href="../Protocols/RSDUSMeasurementPickerDataSource.html">RSDUSMeasurementPickerDataSource</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Protocols/RSDVideoViewUIAction.html">RSDVideoViewUIAction</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols/RSDViewThemeElement.html">RSDViewThemeElement</a>
               </li>
               <li class="nav-group-task">
@@ -1139,6 +1145,9 @@
                 <a href="../Structs/RSDUnitConverter/USCustomaryUnitConverter.html">– USCustomaryUnitConverter</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Structs/RSDVideoViewUIActionObject.html">RSDVideoViewUIActionObject</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Structs/RSDViewThemeElementObject.html">RSDViewThemeElementObject</a>
               </li>
               <li class="nav-group-task">
@@ -1191,6 +1200,33 @@ A task module can define a design system that should be used for the tasks defin
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:8Research15RSDDesignSystemC14currentVersionSivpZ"></a>
+                    <a name="//apple_ref/swift/Variable/currentVersion" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Research15RSDDesignSystemC14currentVersionSivpZ">currentVersion</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Static marker that should be rev&rsquo;d to whatever is the latest version for the design system views.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">currentVersion</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:8Research15RSDDesignSystemC7versionSivp"></a>
                     <a name="//apple_ref/swift/Property/version" class="dashAnchor"></a>
                     <a class="token" href="#/s:8Research15RSDDesignSystemC7versionSivp">version</a>
@@ -1201,7 +1237,7 @@ A task module can define a design system that should be used for the tasks defin
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The version for the color rules. If the design rules change with future versions of this framework,
+                        <p>The version for the design system. If the design rules change with future versions of this framework,
 then the current version number should be rev&rsquo;d as well and any changes to this rule set that are not
 additive include logic to return the previous rules associated with a previous version.</p>
 
@@ -1308,9 +1344,9 @@ primary or secondary action.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:8Research15RSDDesignSystemC8TextTypeO"></a>
-                    <a name="//apple_ref/swift/Enum/TextType" class="dashAnchor"></a>
-                    <a class="token" href="#/s:8Research15RSDDesignSystemC8TextTypeO">TextType</a>
+                    <a name="/s:8Research15RSDDesignSystemC8TextTypeV"></a>
+                    <a name="//apple_ref/swift/Struct/TextType" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Research15RSDDesignSystemC8TextTypeV">TextType</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1320,12 +1356,13 @@ primary or secondary action.</p>
                       <div class="abstract">
                         <p>The supported text types for the text fields and labels.</p>
 
+                        <a href="../Classes/RSDDesignSystem/TextType.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">TextType</span> <span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="kt">Codable</span><span class="p">,</span> <span class="kt">CaseIterable</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">TextType</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="kt">Codable</span><span class="p">,</span> <span class="kt">ExpressibleByStringLiteral</span><span class="p">,</span> <span class="kt">Hashable</span></code></pre>
 
                         </div>
                       </div>

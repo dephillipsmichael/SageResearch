@@ -77,6 +77,9 @@
                 <a href="../Classes/RSDColorRules/Style.html">– Style</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/RSDCountdownUIStepObject.html">RSDCountdownUIStepObject</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/RSDDataLogger.html">RSDDataLogger</a>
               </li>
               <li class="nav-group-task">
@@ -89,7 +92,7 @@
                 <a href="../Classes/RSDDesignSystem.html#/s:8Research15RSDDesignSystemC10ButtonTypeO">– ButtonType</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Classes/RSDDesignSystem.html#/s:8Research15RSDDesignSystemC8TextTypeO">– TextType</a>
+                <a href="../Classes/RSDDesignSystem/TextType.html">– TextType</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/RSDFactory.html">RSDFactory</a>
@@ -903,6 +906,9 @@
                 <a href="../Protocols/RSDUSMeasurementPickerDataSource.html">RSDUSMeasurementPickerDataSource</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Protocols/RSDVideoViewUIAction.html">RSDVideoViewUIAction</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols/RSDViewThemeElement.html">RSDViewThemeElement</a>
               </li>
               <li class="nav-group-task">
@@ -1137,6 +1143,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/RSDUnitConverter/USCustomaryUnitConverter.html">– USCustomaryUnitConverter</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/RSDVideoViewUIActionObject.html">RSDVideoViewUIActionObject</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/RSDViewThemeElementObject.html">RSDViewThemeElementObject</a>
@@ -1487,9 +1496,9 @@ If the background uses light style
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:8Research13RSDColorRulesC9textColor2on3forSo7UIColorCAA0B4TileV_AA15RSDDesignSystemC8TextTypeOtF"></a>
+                    <a name="/s:8Research13RSDColorRulesC9textColor2on3forSo7UIColorCAA0B4TileV_AA15RSDDesignSystemC8TextTypeVtF"></a>
                     <a name="//apple_ref/swift/Method/textColor(on:for:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:8Research13RSDColorRulesC9textColor2on3forSo7UIColorCAA0B4TileV_AA15RSDDesignSystemC8TextTypeOtF">textColor(on:for:)</a>
+                    <a class="token" href="#/s:8Research13RSDColorRulesC9textColor2on3forSo7UIColorCAA0B4TileV_AA15RSDDesignSystemC8TextTypeVtF">textColor(on:for:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1508,6 +1517,10 @@ If the background uses light style
 <pre class="highlight swift"><code><span class="kt">If</span> <span class="n">the</span> <span class="n">background</span> <span class="n">uses</span> <span class="n">light</span> <span class="n">style</span> <span class="n">then</span> <span class="err">`</span><span class="n">text</span><span class="o">.</span><span class="n">light</span><span class="err">`</span>
 <span class="k">else</span> <span class="k">if</span> <span class="n">this</span> <span class="k">is</span> <span class="n">detail</span> <span class="n">text</span> <span class="n">then</span> <span class="err">`</span><span class="n">text</span><span class="o">.</span><span class="n">medium</span><span class="err">`</span>
 <span class="k">else</span> <span class="err">`</span><span class="n">text</span><span class="o">.</span><span class="n">dark</span><span class="err">`</span>
+</code></pre></li>
+<li><p>Default: (version 2)</p>
+<pre class="highlight swift"><code><span class="kt">See</span> <span class="n">the</span> <span class="kt">Sage</span> <span class="kt">Design</span> <span class="kt">System</span> <span class="n">table</span><span class="o">.</span>
+<span class="nv">https</span><span class="p">:</span><span class="c1">//www.figma.com/file/nvoSigSxbFuWzGXgUZAf8M/DigitalHealth_DesignSystem-Master?node-id=3837%3A16223</span>
 </code></pre></li>
 </ul>
 
@@ -1780,13 +1793,18 @@ Tinted button color on a given background.</p>
 
 <ul>
 <li><p>Default:</p>
-<pre class="highlight swift"><code><span class="kt">Get</span> <span class="n">the</span> <span class="s">"normal"</span> <span class="n">tile</span> <span class="n">color</span> <span class="k">for</span> <span class="n">the</span> <span class="n">button</span> <span class="n">type</span><span class="o">.</span> <span class="kt">This</span> <span class="n">depends</span> <span class="n">upon</span> <span class="n">whether</span> <span class="n">or</span> <span class="n">not</span> <span class="n">the</span> <span class="n">button</span> <span class="k">is</span>
+<pre class="highlight swift"><code><span class="kt">If</span> <span class="n">selected</span> <span class="kt">AND</span> <span class="n">secondary</span>
+    <span class="n">then</span> <span class="n">the</span> <span class="n">primary</span> <span class="n">color</span> <span class="n">at</span> <span class="mi">25</span><span class="o">%</span> <span class="n">opacity</span>
+
+<span class="kt">Else</span>
+
+<span class="kt">Get</span> <span class="n">the</span> <span class="s">"normal"</span> <span class="n">tile</span> <span class="n">color</span> <span class="k">for</span> <span class="n">the</span> <span class="n">button</span> <span class="n">type</span><span class="o">.</span> <span class="kt">This</span> <span class="n">depends</span> <span class="n">upon</span> <span class="n">whether</span> <span class="n">or</span> <span class="n">not</span> <span class="n">the</span> <span class="n">button</span> <span class="k">is</span>
 <span class="n">a</span> <span class="n">primary</span> <span class="n">button</span> <span class="n">and</span> <span class="n">whether</span> <span class="n">or</span> <span class="n">not</span> <span class="n">it</span> <span class="k">is</span> <span class="n">displayed</span> <span class="n">on</span> <span class="n">a</span> <span class="n">white</span> <span class="n">background</span><span class="o">.</span>
 
-<span class="kt">If</span> <span class="n">highlighted</span>
+<span class="kt">If</span> <span class="n">highlighted</span> <span class="kt">OR</span> <span class="n">selected</span>
     <span class="n">then</span> <span class="k">if</span> <span class="n">the</span> <span class="n">tile</span> <span class="k">is</span> <span class="err">`</span><span class="n">veryLight</span><span class="err">`</span> <span class="n">then</span> <span class="n">one</span> <span class="n">shade</span> <span class="n">darker</span>
     <span class="k">else</span> <span class="n">one</span> <span class="n">shade</span> <span class="n">lighter</span>
-<span class="kt">If</span> <span class="n">disabled</span>
+<span class="kt">Else</span> <span class="kt">If</span> <span class="n">disabled</span>
     <span class="n">then</span> <span class="mi">35</span><span class="o">%</span> <span class="n">opacity</span>
 <span class="kt">Else</span>
     <span class="k">return</span> <span class="n">the</span> <span class="n">color</span> <span class="n">tile</span> <span class="k">as</span><span class="o">-</span><span class="k">is</span><span class="o">.</span>
@@ -1872,7 +1890,7 @@ Tinted button color on a given background.</p>
 <pre class="highlight swift"><code><span class="kt">Get</span> <span class="n">the</span> <span class="s">"normal"</span> <span class="n">tile</span> <span class="n">color</span> <span class="k">for</span> <span class="n">the</span> <span class="n">button</span> <span class="n">type</span><span class="o">.</span> <span class="kt">This</span> <span class="n">depends</span> <span class="n">upon</span> <span class="n">whether</span> <span class="n">or</span> <span class="n">not</span> <span class="n">the</span> <span class="n">button</span> <span class="k">is</span>
 <span class="n">a</span> <span class="n">primary</span> <span class="n">button</span> <span class="n">and</span> <span class="n">whether</span> <span class="n">or</span> <span class="n">not</span> <span class="n">it</span> <span class="k">is</span> <span class="n">displayed</span> <span class="n">on</span> <span class="n">a</span> <span class="n">white</span> <span class="n">background</span><span class="o">.</span>
 
-<span class="kt">If</span> <span class="n">highlighted</span>
+<span class="kt">If</span> <span class="n">highlighted</span> <span class="kt">OR</span> <span class="n">selected</span>
     <span class="n">then</span> <span class="k">if</span> <span class="n">the</span> <span class="n">tile</span> <span class="k">is</span> <span class="err">`</span><span class="n">veryLight</span><span class="err">`</span> <span class="n">then</span> <span class="n">one</span> <span class="n">shade</span> <span class="n">darker</span>
     <span class="k">else</span> <span class="n">one</span> <span class="n">shade</span> <span class="n">lighter</span>
 <span class="kt">If</span> <span class="n">disabled</span>

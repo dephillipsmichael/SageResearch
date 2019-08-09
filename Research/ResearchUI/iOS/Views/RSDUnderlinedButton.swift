@@ -35,10 +35,26 @@ import UIKit
 
 /// `RSDUnderlinedButton` is a UI element for displaying an underlined button.
 @IBDesignable open class RSDUnderlinedButton : RSDButton, RSDViewDesignable {
-
-    /// The font used for the text button.
-    @IBInspectable open var textFont : UIFont = UIFont.systemFont(ofSize: 18) {
+    
+    override open var isEnabled: Bool {
         didSet {
+            // If the alpha component is used to set this as hidden, then don't do anything.
+            guard alpha > 0.1 else { return }
+            self.alpha = isEnabled ? CGFloat(1) : CGFloat(0.35)
+        }
+    }
+
+    @IBInspectable
+    open var isHeaderLink: Bool = false {
+        didSet {
+            refreshView()
+        }
+    }
+    
+    @available(*, deprecated)
+    open var textFont : UIFont? {
+        didSet {
+            debugPrint("WARNING! Setting a deprecated property on RSDUnderlinedButton. Likely using a NIB or storyboard.")
             refreshView()
         }
     }
@@ -84,13 +100,19 @@ import UIKit
     /// Create an attributed string for this class.
     private func attributedString(_ title: String?, for state: UIControl.State) -> NSAttributedString? {
        
+        let controlState = RSDControlState(controlState: state)
+        let designSystem = self.designSystem ?? RSDDesignSystem()
+        let buttonType: RSDDesignSystem.ButtonType = self.isHeaderLink ? .headerLink : .bodyLink
+        
         let foregroundColor: UIColor = {
-            guard let designSystem = self.designSystem, let background = self.backgroundColorTile
+            guard let background = self.backgroundColorTile
                 else {
                     return self.tintColor
             }
-            return designSystem.colorRules.underlinedTextButton(on: background, state: RSDControlState(controlState: state))
+            return designSystem.colorRules.underlinedTextButton(on: background, state: controlState)
         }()
+        
+        let textFont = self.textFont ?? designSystem.fontRules.buttonFont(for: buttonType, state: controlState)
         
         if let titleUnwrapped = title {
             let attributes: [NSAttributedString.Key : Any] = [

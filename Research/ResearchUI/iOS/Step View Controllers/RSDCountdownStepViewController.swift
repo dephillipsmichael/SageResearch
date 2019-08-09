@@ -101,13 +101,15 @@ open class RSDCountdownStepViewController: RSDFullscreenImageStepViewController 
         super.setColorStyle(for: placement, background: background)
         if placement == .body {
             countdownLabel?.textColor = countdownLabelColor(on: background)
-            self.countdownLabel?.font = self.designSystem.fontRules.font(for: .counter)
+            countdownLabel?.font = self.designSystem.fontRules.font(for: .largeNumber, compatibleWith: traitCollection)
+            self.pauseButton?.setTitle(Localization.buttonPause(), for: .normal)
+            (self.pauseButton as? RSDViewDesignable)?.setDesignSystem(self.designSystem, with: background)
         }
     }
     
     /// Returns the color to use for the countdown label
     open func countdownLabelColor(on background: RSDColorTile) -> UIColor {
-        return self.designSystem.colorRules.textColor(on: background, for: .counter)
+        return self.designSystem.colorRules.textColor(on: background, for: .largeNumber)
     }
     
     // MARK: Initialization
