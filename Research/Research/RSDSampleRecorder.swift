@@ -235,10 +235,14 @@ open class RSDSampleRecorder : NSObject, RSDAsyncAction {
     /// record any data to that file.
     public final func start(_ completion: RSDAsyncActionCompletionHandler?) {
 
+        debugPrint("Start1")
+        
         guard self.status < RSDAsyncActionStatus.finished else {
             self.callOnMainThread(nil, RecorderError.finished, completion)
             return
         }
+        
+        debugPrint("Start2")
         
         guard self.status <= .permissionGranted else {
             self.callOnMainThread(nil, RecorderError.alreadyRunning, completion)
@@ -249,6 +253,8 @@ open class RSDSampleRecorder : NSObject, RSDAsyncAction {
         isPaused = false
         clock = RSDClock()
         _syncUpdateStatus(.starting)
+        
+        debugPrint("Start3")
         
         self.loggerQueue.async {
             do {
@@ -307,6 +313,7 @@ open class RSDSampleRecorder : NSObject, RSDAsyncAction {
                     } else {
                         self._syncUpdateStatus(.finished)
                     }
+                    
                     self.callOnMainThread(self.result, self.error, completion)
                 })
             }
@@ -482,6 +489,7 @@ open class RSDSampleRecorder : NSObject, RSDAsyncAction {
     private func _syncUpdateStatus(_ newStatus: RSDAsyncActionStatus, error: Error? = nil) {
         // Status transitions are sequential so do not change the status if the new status is not greater than
         // the current status
+        debugPrint("_syncUpdateStatus \(newStatus.rawValue) Thread \(Thread.current)")
         guard newStatus > self.status else { return }
         
         // Check if this is the main thread and if not, then call it *synchronously* on the main thread.
@@ -667,11 +675,14 @@ open class RSDSampleRecorder : NSObject, RSDAsyncAction {
     private func _startLogger(at taskViewModel: RSDPathComponent) throws {
         let step = taskViewModel.currentNode?.step
         updateMarker(step: step, taskViewModel: taskViewModel)
+        debugPrint("_startLogger")
         for identifier in self.loggerIdentifiers {
+            debugPrint("Attempting to create logger")
             guard let dataLogger = try instantiateLogger(with: identifier) else {
                 continue
             }
             loggers[identifier] = dataLogger
+            debugPrint("new logger created \(loggers)")
             if let logger = dataLogger as? RSDRecordSampleLogger {
                 let marker = instantiateMarker(uptime: self.clock.startUptime, timestamp: 0, date: self.clock.startDate, stepPath: currentStepPath, loggerIdentifier: identifier)
                 try logger.writeSample(marker)
@@ -682,6 +693,8 @@ open class RSDSampleRecorder : NSObject, RSDAsyncAction {
     /// Close log files. This method should be called on the `loggerQueue`.
     private func _stopLogger() throws {
         var error: Error?
+        debugPrint("_stopLogger")
+        debugPrint("loggers heere \(self.loggers)")
         for (_, logger) in self.loggers {
             do {
                 try logger.close()
@@ -694,8 +707,10 @@ open class RSDSampleRecorder : NSObject, RSDAsyncAction {
                 fileResult.startUptime = self.clock.startSystemUptime
                 fileResult.contentType = logger.contentType
                 self.appendResults(fileResult)
+                debugPrint("File result \(fileResult)")
             }
             catch let err {
+                debugPrint("\(error)")
                 error = err
             }
         }

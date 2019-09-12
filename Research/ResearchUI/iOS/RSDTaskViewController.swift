@@ -616,7 +616,10 @@ open class RSDTaskViewController: UIViewController, RSDTaskController, UIPageVie
                         controller.stop({ [weak self] (controller, result, error) in
                             self?._removeAsyncActionController(controller)
                             if let asyncResult = result {
+                                debugPrint("Valid result")
                                 controller.taskViewModel.taskResult.appendAsyncResult(with: asyncResult)
+                            } else {
+                                debugPrint("NOOOOPE nil result")
                             }
                             if error != nil {
                                 self?._addErrorResult(for: controller, error: error!)
@@ -798,8 +801,11 @@ open class RSDTaskViewController: UIViewController, RSDTaskController, UIPageVie
             if controller.delegate == nil {
                 controller.delegate = self
             }
+            debugPrint("Requesting permission")
             controller.requestPermissions(on: self, { [weak self] (controller, _, error) in
+                debugPrint("Requesting permission done")
                 DispatchQueue.main.async {
+                    debugPrint("Requesting permission main")
                     guard let strongSelf = self, error == nil, controller.status < .starting,
                         let inflight = strongSelf._findInflight(for: controller)
                         else {
@@ -810,7 +816,9 @@ open class RSDTaskViewController: UIViewController, RSDTaskController, UIPageVie
                             completion()
                             return
                     }
+                    debugPrint("state starting \(inflight.requestedState.rawValue)")
                     if inflight.requestedState == .starting {
+                        debugPrint("call to start")
                         strongSelf._startAsyncActionControllerPart2(controller, completion: completion)
                     }
                     else {
