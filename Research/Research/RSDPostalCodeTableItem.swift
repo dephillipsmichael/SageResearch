@@ -1,5 +1,5 @@
 //
-//  RSDDataStorageManager.swift
+//  RSDPostalCodeTableItem.swift
 //  Research
 //
 //  Copyright © 2019 Sage Bionetworks. All rights reserved.
@@ -33,29 +33,35 @@
 
 import Foundation
 
-
-/// The data storage manager controls storing of user data that is stored across task runs. It is a
-/// composite protocol of the methods defined using Swift, which are required but can include Swift objects
-/// and methods that conform to Objective-C protocols which allows for optional implementation of the
-/// included methods.
-public protocol RSDDataStorageManager : RSDSwiftDataStorageManager, RSDObjCDataStorageManager {
-}
-
-public protocol RSDSwiftDataStorageManager : class, NSObjectProtocol {
+open class RSDPostalCodeTableItem : RSDTextInputTableItem {
     
-    /// Returns data associated with the previous task run for a given task identifier.
-    func previousTaskData(for taskIdentifier: RSDIdentifier) -> RSDTaskData?
+    /// The number of characters after which to replace the rest with "*" characters.
+    let characterCount = 3
     
-    /// Store the given task run data.
-    /// - parameters:
-    ///     - data: The task data object to store.
-    ///     - taskResult: The task result (if any) used to create the task data.
-    func saveTaskData(_ data: RSDTaskData, from taskResult: RSDTaskResult?)
-}
+    public init(rowIndex: Int, inputField: RSDInputField) {
+        
+        // If the text field options are not defined then set them
+        let textFieldOptions = inputField.textFieldOptions ??
+            RSDTextFieldOptionsObject(keyboardType: .asciiCapable,
+                                      autocapitalizationType: .allCharacters,
+                                      isSecureTextEntry: false,
+                                      maximumLength: 0,
+                                      spellCheckingType: .no,
+                                      autocorrectionType: .no)
 
-@objc public protocol RSDObjCDataStorageManager : class, NSObjectProtocol {
-    
-    /// Optional. Should survey questions be shown in subsequent runs using the results from a
-    /// previous run?
-    @objc optional func shouldUsePreviousAnswers(for taskIdentifier: String) -> Bool
+        super.init(rowIndex: rowIndex, inputField: inputField, uiHint: .textfield, answerType: .string, textFieldOptions: textFieldOptions, formatter: nil, pickerSource: nil, placeholder: nil)
+    }
+
+    /// Override to replace the characters after the first 3 with "*".
+    open override func convertAnswer(_ newValue: Any) throws -> Any? {
+        guard let code = try super.convertAnswer(newValue) as? String else { return nil }
+        guard code.count > characterCount else { return code }
+        
+        var value = code
+        let start = value.index(value.startIndex, offsetBy: characterCount)
+        let replacement = String(repeating: "*", count: value.count - characterCount)
+        value.replaceSubrange(start..., with: replacement)
+
+        return value
+    }
 }
