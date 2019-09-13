@@ -200,7 +200,7 @@ open class RSDActiveStepViewController: RSDFullscreenImageStepViewController {
     /// Stop any recorders that are attached to this step which would normally be stopped when the participant
     /// navigates away from the step.
     open func stopAsyncActions() {
-
+        print("stopAsyncActions state=\(_asyncActionsStopped)")
         guard !_asyncActionsStopped,
             let taskViewModel = self.stepViewModel?.parentTaskPath as? RSDTaskViewModel,
             let step = self.step
@@ -215,11 +215,13 @@ open class RSDActiveStepViewController: RSDFullscreenImageStepViewController {
     /// Called when the timer has fired and should either transition to the next step or update the display.
     open func timerFinished(_ duration: TimeInterval) {
         
+        print("timerFinished")
         // Call stop immediately.
         stop()
         
         // Check if should go forward automatically (or if the next button is nil).
         if (self.activeStep?.commands.contains(.continueOnFinish) ?? (self.nextButton == nil))  {
+            print("immediately going forward continue on finish \(String(describing: self.activeStep?.commands.contains(.continueOnFinish))) and next button \(String(describing: self.nextButton))")
             self.goForward()
         }
         else {

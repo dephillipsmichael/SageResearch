@@ -593,6 +593,8 @@ open class RSDTaskViewController: UIViewController, RSDTaskController, UIPageVie
     /// is called, the view controller needs to handle stopping the controllers, adding the results, and
     /// showing a loading state until ready to move forward in the task navigation.
     public func stopAsyncActions(for controllers: [RSDAsyncAction], showLoading: Bool, completion: @escaping (() -> Void)) {
+        
+        print("stopAsyncActions")
     
         // Start on the main queue
         DispatchQueue.main.async {
@@ -609,6 +611,7 @@ open class RSDTaskViewController: UIViewController, RSDTaskController, UIPageVie
                 // Create a dispatch group
                 let dispatchGroup = DispatchGroup()
                 
+                print("controllers \(controllers)")
                 // Stop each controller and add the result
                 for controller in controllers {
                     if (controller.status <= RSDAsyncActionStatus.running) {
@@ -618,13 +621,13 @@ open class RSDTaskViewController: UIViewController, RSDTaskController, UIPageVie
                             if let asyncResult = result {
                                 debugPrint("Valid result")
                                 controller.taskViewModel.taskResult.appendAsyncResult(with: asyncResult)
-                            } else {
-                                debugPrint("NOOOOPE nil result")
                             }
                             else if error == nil {
+                                print("TODO: ERROR NIL RESULT")
                                 print("WARNING! NULL result for async action \(controller.configuration.identifier)")
                             }
                             if error != nil {
+                                print("TODO: ERROR")
                                 self?._addErrorResult(for: controller, error: error!)
                             }
                             dispatchGroup.leave()

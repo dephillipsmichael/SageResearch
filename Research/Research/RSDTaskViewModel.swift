@@ -822,7 +822,7 @@ extension RSDTaskViewModel {
             _notifyAsyncControllers(to: step, excludingControllers:[])
             return
         }
-        
+        print("_finishMoving")
         // Get which controllers should be stopped
         let isTaskComplete = self.isTaskComplete(with: step)
         var excludedControllers: [RSDAsyncAction] = []
@@ -907,6 +907,7 @@ extension RSDTaskViewModel {
     
     private func _moveUpThePath(from previousStep: RSDStep?, to parent: RSDTaskPathComponent, hasPreviousEarlyExit: Bool = false) {
         
+        print("hasPreviousEarlyExit \(hasPreviousEarlyExit) previousStep \(String(describing:previousStep)) controllers \(String(describing:_asyncActionsToStop(after: previousStep, isTaskComplete: true))) taskController \(String(describing:self.taskController))")
         if !hasPreviousEarlyExit, let stopStep = previousStep,
             let controllers = _asyncActionsToStop(after: stopStep, isTaskComplete: true),
             let taskController = self.taskController {
@@ -922,6 +923,8 @@ extension RSDTaskViewModel {
             })
             return
         }
+        
+        print("Skipped stops")
         
         // Mark the task as complete
         _handleTaskReady()
@@ -971,12 +974,18 @@ extension RSDTaskViewModel {
     private func _asyncActionsToStop(after step: RSDStep?, isTaskComplete: Bool) -> [RSDAsyncAction]? {
         guard let currentControllers = self.taskController?.currentAsyncControllers
             else {
+                print("nil return of self.taskController?.currentAsyncControllers")
                 return nil
         }
         
+        print("found controllers \(currentControllers)")
+        
         let controllers = currentControllers.filter { (controller) -> Bool in
             // Verify that the controller is running
-            guard controller.status <= .running else { return false }
+            guard controller.status <= .running else {
+                print("controller not running")
+                return false
+            }
             
             // verify that the controller task path is either the input path *or* a child of the current path.
             let path = controller.taskViewModel.fullPath
