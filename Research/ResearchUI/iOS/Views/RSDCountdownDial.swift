@@ -140,8 +140,10 @@ public final class RSDCountdownDial: RSDProgressIndicator, RSDViewDesignable {
         }
     }
     
+    /// The default countdown dial progress fills up clockwise starting at 12 o'clock.
+    /// If 'isClockwise' is false, the dial will fill up counter-clockwise starting at 12 o'clock.
     @IBInspectable
-    public var clockwise: Bool = true {
+    public var isClockwise: Bool = true {
         didSet {
             _relayoutSubviews()
         }
@@ -270,7 +272,7 @@ public final class RSDCountdownDial: RSDProgressIndicator, RSDViewDesignable {
             layer.insertSublayer(ringLayer, at: 0)
             ringLayer.frame = bounds
             
-            let dialPath = createCirclePath(isClockwise: self.clockwise).cgPath
+            let dialPath = createCirclePath(isClockwise: self.isClockwise).cgPath
             
             dialLayer = CAShapeLayer()
             dialLayer.path = dialPath
