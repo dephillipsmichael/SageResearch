@@ -139,6 +139,13 @@ public final class RSDCountdownDial: RSDProgressIndicator, RSDViewDesignable {
             ringLayer?.shadowOpacity = hasShadow ? 1.0 : 0
         }
     }
+    
+    @IBInspectable
+    public var clockwise: Bool = true {
+        didSet {
+            _relayoutSubviews()
+        }
+    }
 
     /// If the colorStyle is set, then this will determine the inner color and light style and will
     /// override any colors set by the storyboard or nib. This value is `nil` by default and can only be set
@@ -245,26 +252,31 @@ public final class RSDCountdownDial: RSDProgressIndicator, RSDViewDesignable {
     public override func layoutSubviews() {
         super.layoutSubviews()
         
+        _relayoutSubviews()
+        _updateLayerProperties()
+    }
+    
+    private func _relayoutSubviews() {
         let bounds = self.layer.bounds
         if _rect == nil || !bounds.equalTo(_rect!) {
             ringLayer?.removeFromSuperlayer()
             dialLayer?.removeFromSuperlayer()
             _rect = bounds
     
-            let path = createCirclePath().cgPath
+            let ringPath = createCirclePath(isClockwise: true).cgPath
         
             ringLayer = CAShapeLayer()
-            ringLayer.path = path
+            ringLayer.path = ringPath
             layer.insertSublayer(ringLayer, at: 0)
             ringLayer.frame = bounds
             
+            let dialPath = createCirclePath(isClockwise: self.clockwise).cgPath
+            
             dialLayer = CAShapeLayer()
-            dialLayer.path = path
+            dialLayer.path = dialPath
             layer.addSublayer(dialLayer)
             dialLayer.frame = bounds
         }
-
-        _updateLayerProperties()
     }
     
     private func _updateLayerProperties() {
@@ -290,16 +302,23 @@ public final class RSDCountdownDial: RSDProgressIndicator, RSDViewDesignable {
         dialLayer?.fillColor = UIColor.clear.cgColor
     }
     
-    private func createCirclePath() -> UIBezierPath {
+    private func createCirclePath(isClockwise: Bool) -> UIBezierPath {
         
         let inset: CGFloat = 0.0
         let radius = (bounds.width - inset) / 2.0
         let arcCenter = CGPoint(x: bounds.width / 2.0, y: bounds.height / 2.0)
-        let startAngle = -1.0 * CGFloat.pi / 2.0
-        let endAngle = 3.0 * CGFloat.pi / 2.0
+        
+        var startAngle = -1.0 * CGFloat.pi / 2.0
+        var endAngle = 3.0 * CGFloat.pi / 2.0
+        
+        // Counter clock-wise requires different start/end angles
+        if !isClockwise {
+            startAngle = 3.0 * CGFloat.pi / 2.0
+            endAngle = -1.0 * CGFloat.pi / 2.0
+        }
 
         let shapePath = UIBezierPath()
-        shapePath.addArc(withCenter: arcCenter, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
+        shapePath.addArc(withCenter: arcCenter, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: isClockwise)
         
         return shapePath
     }
