@@ -43,7 +43,7 @@ import Research
 /// works around the phone going to sleep by playing a silent audio clip.
 public final class AudioRecorderAudioSessionController : NSObject, RSDAudioSessionController {
     
-    static let shared = AudioRecorderAudioSessionController()
+    public static let shared = AudioRecorderAudioSessionController()
     
     /// The audio session is a shared pointer to the current audio session (if running). This is used to
     /// allow background audio. Background audio is required in order for an active step to play sound
