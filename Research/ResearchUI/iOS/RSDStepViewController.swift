@@ -1045,7 +1045,7 @@ open class RSDStepViewController : UIViewController, RSDStepController, RSDCance
     /// Stop the timer.
     open func stop() {
         _stopTimer()
-        _stopInterruptionObserver()
+        stopInterruptionObserver()
     }
 
     private func _stopTimer() {
@@ -1156,7 +1156,7 @@ open class RSDStepViewController : UIViewController, RSDStepController, RSDCance
         })
     }
     
-    func _stopInterruptionObserver() {
+    public func stopInterruptionObserver() {
         if let observer = _audioInterruptObserver {
             NotificationCenter.default.removeObserver(observer)
             _audioInterruptObserver = nil
